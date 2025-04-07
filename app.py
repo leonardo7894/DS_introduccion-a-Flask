@@ -20,4 +20,9 @@ def dado(caras):
     h = randint(1, caras)
     return f"<p>tire un  dado de {caras}, salio {h}</p>"
 
+@app.route("/suma/<int:n1, n2>")#string necesita un string
+def suma(n1, n2):
+    s= n1+n2
+    return f"<p>{n1} + {n2} es {s}</p>"
+
 #siempre que haya un string,float,int, en la ruta, quiere decir que necsesita recibir algo y se separa po0r barras '/'
