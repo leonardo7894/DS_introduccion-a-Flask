@@ -1,7 +1,47 @@
 from flask import Flask ,url_for
+import sqlite3
+
+def dict_factory(cursor, row):
+   """Arma un diccionario con los valores de la fila."""
+   fields = [column[0] for column in cursor.description]
+   return {key: value for key, value in zip(fields, row)}
 
 app = Flask(__name__)
 
+
+db = None
+def abrirConexion():
+    global db
+    db = sqlite3.connect("instance/datos.sqlite")
+    db.row_factory = dict_factory
+
+def cerrarConexion():
+    global db
+    db.close()
+    db = None
+
+@app.route("/test.db")
+def testDB():
+    abrirConexion()
+    cursor = db.cursor()
+    res = cursor.execute("SELECT count(*) AS cant FROM usuarios")
+    res = cursor.fetchone()
+    registros = res["cant"]
+    cerrarConexion()
+    return f"hay {registros} registros en la tabla ususarios"
+    
+@app.route("/crear_usuario_argumento/<string:usuario>/<string:email>")
+def argumento(usuario, email):
+    abrirConexion()
+    cursor = db.cursor()
+    consulta = "INSERT INTO usuarios(usuario, email) VALUES"
+    cursor.execute(consulta,(usuario,email))
+    db.commit()
+    cerrarConexion()
+    return f"registro agregado ({usuario})"
+
+@app.route("/eliminar")
+def argumentos():
 
 @app.route("/")
 def main():
@@ -45,7 +85,4 @@ def suma(n1, n2):
     s= n1+n2
     return f"<p>{n1} + {n2} = {s}</p>"
 
-#siempre que haya un string,float,int, en la ruta, quiere decir que necsesita recibir algo y se separa po0r barras '/'
-
-
-
+#siempre que haya un string,float,int, en la ruta, quiere decir que nesesita recibir algo y se separa por barras '/'
