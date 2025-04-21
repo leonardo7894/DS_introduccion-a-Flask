@@ -1,4 +1,4 @@
-from flask import Flask ,url_for
+from flask import Flask ,url_for, render_template
 import sqlite3
 
 def dict_factory(cursor, row):
@@ -42,6 +42,8 @@ def argumento(usuario, email):
 
 @app.route("/eliminar")
 def argumentos():
+    pass
+
 
 @app.route("/")
 def main():
@@ -86,3 +88,19 @@ def suma(n1, n2):
     return f"<p>{n1} + {n2} = {s}</p>"
 
 #siempre que haya un string,float,int, en la ruta, quiere decir que nesesita recibir algo y se separa por barras '/'
+
+@app.route("/mostrar-datos/<int:id>")
+def datos(id):
+    abrirConexion()
+    cursor = db.cursor()
+    res = cursor.execute("SELECT id, usuario,email FROM usuarios WHERE id = ?",(id,))
+    res = cursor.fetchone()
+    cerrarConexion()
+    usuario=None
+    email=None
+    if res != None:
+        usuario=res["usuario"]
+        email=res["email"]
+    return render_template("datos.html",usuario=usuario, email=email, id=id)
+    
+   

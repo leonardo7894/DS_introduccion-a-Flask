@@ -1,0 +1,12 @@
+<!DOCTYPE html5>
+<html>
+<head> <title>datos</title></head> 
+<body>
+    {% if usuario == None %}
+      <h1 style='color:red'>no existe el ususario {{id}} </h1>
+    {%else%}
+    <h1 >usuario con id: {{id}}</h1>
+    <h2>{{usuario}} ({{email}})</h2>
+     {% endif %}
+<body>
+<html>
