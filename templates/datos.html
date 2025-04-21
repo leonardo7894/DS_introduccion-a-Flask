@@ -1,12 +1,20 @@
 <!DOCTYPE html5>
 <html>
-<head> <title>datos</title></head> 
-<body>
+<head> <title>datos</title>
+<link rel="stylesheet" href="{{url_for('static', filename='contenedor.css')}}"></head> 
+<body class="contenedor">
     {% if usuario == None %}
       <h1 style='color:red'>no existe el ususario {{id}} </h1>
     {%else%}
     <h1 >usuario con id: {{id}}</h1>
-    <h2>{{usuario}} ({{email}})</h2>
+    <br>
+    <h2>su nombre es: {{usuario}}  </h2>
+    <br>
+    <h2>su email es: {{email}}</h2>
+    <br>
+    <h2> su direccion es: {{direccion}}</h2>
+    <br>
+    <h2>su telefono es: {{telefono}}</h2>
      {% endif %}
 <body>
 <html>

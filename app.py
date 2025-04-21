@@ -93,14 +93,18 @@ def suma(n1, n2):
 def datos(id):
     abrirConexion()
     cursor = db.cursor()
-    res = cursor.execute("SELECT id, usuario,email FROM usuarios WHERE id = ?",(id,))
+    res = cursor.execute("SELECT id, usuario,email,telefono,direccion FROM usuarios WHERE id = ?",(id,))
     res = cursor.fetchone()
     cerrarConexion()
     usuario=None
     email=None
+    direccion = None
+    telefono=None
     if res != None:
+        direccion=res["direccion"]
+        telefono= res["telefono"]
         usuario=res["usuario"]
         email=res["email"]
-    return render_template("datos.html",usuario=usuario, email=email, id=id)
+    return render_template("datos.html",usuario=usuario, email=email, id=id, direccion=direccion,telefono=telefono )
     
    
