@@ -52,7 +52,11 @@ def main():
     url_dados = url_for("dado", caras=6)
     url_imagen = url_for("static", filename="logo.jpg")
     url_chau = url_for("chau")
+    url_usuarios = url_for("ruta/usuarios")
+
     return f"""
+    <a href ="{url_usuarios}">usuarios</a>
+    <br>
     <a href ="{url_hola}">hola</a>
     <br>
     <a href ="{url_nombre}">nombre</a>
@@ -89,7 +93,7 @@ def suma(n1, n2):
 
 #siempre que haya un string,float,int, en la ruta, quiere decir que nesesita recibir algo y se separa por barras '/'
 
-@app.route("/mostrar-datos/<int:id>")
+@app.route("/mostrar_datos/<int:id>")
 def datos(id):
     abrirConexion()
     cursor = db.cursor()
@@ -101,10 +105,19 @@ def datos(id):
     direccion = None
     telefono=None
     if res != None:
-        direccion=res["direccion"]
         telefono= res["telefono"]
+        direccion=res["direccion"]
         usuario=res["usuario"]
         email=res["email"]
     return render_template("datos.html",usuario=usuario, email=email, id=id, direccion=direccion,telefono=telefono )
     
-   
+@app.route("/ruta/usuarios")
+def usuarios():
+  abrirConexion()
+  cursor = db.cursor()
+  res = cursor.execute("SELECT usuario,id FROM usuarios")
+  res = cursor.fetchall()
+  cerrarConexion()
+  return render_template("alaska.html", usuarios=res )
+
+
